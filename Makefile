@@ -40,13 +40,13 @@ run:
 lintCheck:
 	@( \
     	pip install pylint; \
-		pylint app.py; \
+		pylint app.py tests/*.py --fail-under 5 --fail-on E; \
 	)
 
 securityCheck:
 	@( \
 		pip3 install bandit; \
-		bandit -r app.py; \
+		bandit -r app.py tests/*.py --exit-zero; \
 	)
 
 check:
