@@ -46,8 +46,10 @@ lintCheck:
 securityCheck:
 	@( \
 		pip3 install bandit; \
-		bandit -r app.py tests/*.py --exit-zero; \
+		apt install jq; \
+		bandit -r app.py tests/*.py -f json | jq -e '.metrics._totals.["SEVERITY.HIGH"] == 0'
 	)
+
 
 check:
 	$(MAKE) lintCheck
