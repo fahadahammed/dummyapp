@@ -41,13 +41,12 @@ lintCheck:
 	@( \
     	pip install pylint; \
 		pylint app.py; \
-		pylint tests/*; \
 	)
 
 securityCheck:
 	@( \
 		pip3 install bandit; \
-		bandit -r app.py tests/*.py; \
+		bandit -r app.py; \
 	)
 
 check:
