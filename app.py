@@ -1,21 +1,27 @@
+"""DummyApp
+
+Return: Hit Count
+"""
+
 import datetime
 import os
 import time
 import random
-
+import socket
 import json
+
 from fastapi import FastAPI, Response, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from uvicorn import run
-import socket
+
 
 the_hostname = socket.gethostname()
 service_name = os.getenv("SERVICE_NAME", "DummyApp")
-STARTUP_DELAY = os.getenv("STARTUP_DELAY", random.randint(20, 30))
-LIVENESS_DELAY_COUNTER = os.getenv("LIVENESS_DELAY_COUNTER", 2)
-READINESS_DELAY_COUNTER = os.getenv("LIVENESS_DELAY_COUNTER", 2)
-HIT_COUNT = os.getenv("HIT_COUNT", 0)
+STARTUP_DELAY = int(os.getenv("STARTUP_DELAY", f"{random.randint(20, 30)}"))
+LIVENESS_DELAY_COUNTER = int(os.getenv("LIVENESS_DELAY_COUNTER", "2"))
+READINESS_DELAY_COUNTER = int(os.getenv("LIVENESS_DELAY_COUNTER", "2"))
+HIT_COUNT = int(os.getenv("HIT_COUNT", "0"))
 
 app = FastAPI()
 
@@ -23,8 +29,7 @@ app = FastAPI()
 def check_odd_or_even(number):
     if number % 2 == 0:
         return "EVEN"
-    else:
-        return "ODD"
+    return "ODD"
 
 
 def hit_count():
@@ -39,7 +44,7 @@ def prepare_static_template():
         os.makedirs("static")
     if not os.path.exists("templates"):
         os.makedirs("templates")
-    with open("templates/index.html", "w+") as itemplate:
+    with open("templates/index.html", "w+", encoding="utf-8") as itemplate:
         itemplate.write('''
         <html>
 <head>
@@ -87,7 +92,7 @@ def root(request: Request, html: bool = False):
 def probe_liveness():
     if check_odd_or_even(random.choice(list(range(LIVENESS_DELAY_COUNTER)))) == "ODD":
         return False
-    return Response(json.dumps({"message": f"I am alive!"}), status_code=200)
+    return Response(json.dumps({"message": "I am alive!"}), status_code=200)
 
 
 @app.get("/probe/readiness")
@@ -99,6 +104,11 @@ def probe_readiness():
 
 @app.get("/probe/startup")
 def probe_startup():
+    """Startup Probe
+    Return: It will just return after waiting some time depending on STARTUP_DELAY
+    that it has started.
+    """
+    
     time.sleep(int(STARTUP_DELAY))
     return Response(json.dumps({"message": "I have started!"}), status_code=200)
 
@@ -106,6 +116,6 @@ def probe_startup():
 if __name__ == "__main__":
     run(
         app="__main__:app",
-        reload=True, port=int(os.getenv("UVICORN_PORT", 7551)),
+        reload=True, port=int(os.getenv("UVICORN_PORT", "7551")),
         host=os.getenv("UVICORN_HOST", "0.0.0.0")
     )

@@ -40,7 +40,7 @@ run:
 lintCheck:
 	@( \
     	pip install pylint; \
-		pylint app.py tests/*.py --fail-under 5 --fail-on E; \
+		pylint app.py tests/*.py --fail-under 8 --fail-on E; \
 	)
 
 securityCheck:
