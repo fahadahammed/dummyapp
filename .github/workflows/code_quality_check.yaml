@@ -1,0 +1,34 @@
+name: Check Code Quality and Test
+
+on:
+  push:
+    branches:
+      - "feature/**"
+  pull_request:
+    branches:
+      - main
+      - dev
+      - test
+      - staging
+
+env:
+  VERSION: ${{github.ref_name}}
+
+jobs:
+  build_and_publish:
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v4
+      
+    - name: Check Linting
+      run: |
+        make lintCheck
+
+    - name: Check Security
+      run: |
+        make securityCheck
+
+    - name: Run Unittest
+      run: |
+        make test

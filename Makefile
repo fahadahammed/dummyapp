@@ -4,14 +4,23 @@ REGISTRY ?= docker.io
 USERN ?= fahadahammed
 CONTAINER_IMAGE = $(REGISTRY)/$(USERN)/$(APPLICATION_NAME)
 
+test:
+	@python3 -m unittest -v tests/*.py -v
+
 dockerBuildLatest:
 	@echo "Latest Build Started >>"
 	docker build --tag $(CONTAINER_IMAGE):latest .
 	@echo "Latest Build Done!"
 
-dockerBuild:
+dockerBuildVersion:
 	@echo "Version Build Started >>"
 	docker build --tag $(CONTAINER_IMAGE):$(VERSION) .
+	@echo "Build Done!"
+
+dockerBuild:
+	@echo "Build Started >>"
+	$(MAKE) dockerBuildVersion
+	$(MAKE) dockerBuildLatest
 	@echo "Build Done!"
 
 dockerPush:
@@ -26,4 +35,25 @@ build: dockerBuild
 	@echo "Done!"
 
 run:
-	python3 app.py
+	@python3 app.py
+
+lintCheck:
+	@( \
+    	pip install pylint; \
+		pylint app.py; \
+		pylint tests/*; \
+	)
+
+securityCheck:
+	@( \
+		pip3 install bandit; \
+		bandit -r app.py tests/*.py; \
+	)
+
+check:
+	$(MAKE) lintCheck
+	$(MAKE) securityCheck
+
+check_and_test:
+	$(MAKE) check
+	$(MAKE) test
