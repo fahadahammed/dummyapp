@@ -47,7 +47,7 @@ securityCheck:
 	@( \
 		pip3 install bandit; \
 		apt install jq; \
-		bandit -r app.py tests/*.py -f json | jq -e '.metrics._totals.["SEVERITY.HIGH"] == 0'
+		bandit -r app.py tests/*.py -f json | jq -e '.metrics._totals.["SEVERITY.HIGH"] == 0'; \
 	)
 
 
