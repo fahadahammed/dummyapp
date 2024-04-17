@@ -46,6 +46,7 @@ lintCheck:
 securityCheck:
 	@( \
 		pip3 install bandit; \
+		bandit -r app.py tests/*.py -f json | jq '.metrics._totals'; \
 		bandit -r app.py tests/*.py -f json | jq -e '.metrics._totals."SEVERITY.HIGH" == 0'; \
 	)
 
