@@ -1,9 +1,9 @@
 name: Check Code Quality and Test
 
 on:
-  push:
-    branches:
-      - "feature/**"
+  # push:
+  #   branches:
+  #     - "feature/**"
   pull_request:
     branches:
       - main
