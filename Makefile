@@ -40,12 +40,13 @@ run:
 lintCheck:
 	@( \
     	pip install pylint; \
-		pylint app.py tests/*.py --fail-under 5 --fail-on E; \
+		pylint app.py tests/*.py --fail-under 8 --fail-on E; \
 	)
 
 securityCheck:
 	@( \
 		pip3 install bandit; \
+		bandit -r app.py tests/*.py -f json | jq '.metrics._totals'; \
 		bandit -r app.py tests/*.py -f json | jq -e '.metrics._totals."SEVERITY.HIGH" == 0'; \
 	)
 
