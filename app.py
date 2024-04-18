@@ -52,7 +52,7 @@ def prepare_static_template():
 </head>
 <body>
     <h1>{{message}}</h1>
-    <p>
+    <p align='center'>
     <h3>{{data['service']}}</h3>
     <h3>{{data['time']}}</h3>
     <h3>{{data['version']}}</h3>
