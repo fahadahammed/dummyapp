@@ -1,5 +1,9 @@
 FROM python:3.12.1-bookworm
 
+LABEL org.opencontainers.image.source=https://github.com/fahadahammed/dummyapp
+LABEL org.opencontainers.image.description="DummyApp to test in k8s and others."
+LABEL org.opencontainers.image.licenses=MIT
+
 RUN mkdir /opt/DummyApp
 WORKDIR /opt/DummyApp
 
