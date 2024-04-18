@@ -42,8 +42,8 @@ jobs:
 
     - name: Build the Container Image
       run: |
-        REGISTRY={{secrets.GH_REGISTRY}} VERSION=${{env.VERSION}} USERN=${{ secrets.GH_NAMESPACE }} make dockerBuild
+        REGISTRY=${{secrets.GH_REGISTRY}} VERSION=${{env.VERSION}} USERN=${{ secrets.GH_NAMESPACE }} make dockerBuild
 
     - name: Push the image to Dockerhub
       run: |
-        REGISTRY={{secrets.GH_REGISTRY}} VERSION=${{env.VERSION}} USERN=${{ secrets.GH_NAMESPACE }} make dockerPush
+        REGISTRY=${{secrets.GH_REGISTRY}} VERSION=${{env.VERSION}} USERN=${{ secrets.GH_NAMESPACE }} make dockerPush
