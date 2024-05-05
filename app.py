@@ -22,6 +22,7 @@ STARTUP_DELAY = int(os.getenv("STARTUP_DELAY", f"{random.randint(20, 30)}"))
 LIVENESS_DELAY_COUNTER = int(os.getenv("LIVENESS_DELAY_COUNTER", "2"))
 READINESS_DELAY_COUNTER = int(os.getenv("LIVENESS_DELAY_COUNTER", "2"))
 HIT_COUNT = int(os.getenv("HIT_COUNT", "0"))
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
 
 app = FastAPI()
 
@@ -78,6 +79,7 @@ def root(request: Request, html: bool = False):
             "service": f"{service_name}",
             "time": datetime.datetime.utcnow(),
             "version": os.getenv("VERSION", "v1"),
+            "environment": ENVIRONMENT,
             "hit_count": result
         }
     }
