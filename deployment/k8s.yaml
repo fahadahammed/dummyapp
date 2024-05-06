@@ -9,6 +9,9 @@ metadata:
   namespace: dummyapp
   name: 'dummyapp.fahadahammed.com'
 spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: dummyapp
   secretName: 'dummyapp.fahadahammed.com.cert'
   subject:
     organizations:
