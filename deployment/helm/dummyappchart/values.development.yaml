@@ -1,13 +1,10 @@
 namespace: dummyapp-development
 environment: development
 application_name: dummyapp
-certificate_name: dummyapp-development.fahadahammed.com
-certificate_dns_names:
-  - dummyapp-development.fahadahammed.com
-certificate_organization: DummyApp
 replicas: 2
 application_container_name: dummyapp
 application_image_url: docker.io/fahadahammed/dummyapp
 application_image_tag: v1.0.2
+certificate_name: dummyapp-development.fahadahammed.com
 ingress_hosts:
   - dummyapp-development.fahadahammed.com
