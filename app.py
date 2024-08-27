@@ -23,7 +23,6 @@ LIVENESS_DELAY_COUNTER = int(os.getenv("LIVENESS_DELAY_COUNTER", "2"))
 READINESS_DELAY_COUNTER = int(os.getenv("LIVENESS_DELAY_COUNTER", "2"))
 HIT_COUNT = int(os.getenv("HIT_COUNT", "0"))
 ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
-TIMEOUT_VALUE = int(os.getenv("TIMEOUT_VALUE", "0"))
 
 app = FastAPI()
 
@@ -117,8 +116,8 @@ def probe_startup():
 
 
 @app.get("/timeout_check")
-def timeout_check(request: Request, html: bool = False):
-    timeout_value = TIMEOUT_VALUE
+def timeout_check(request: Request, html: bool = False, timeout_value: int = 60):
+    time.sleep(timeout_value)
     to_return = {
         "message": f"Hello World from {service_name}:{the_hostname}!",
         "data": {
