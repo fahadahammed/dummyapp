@@ -18,10 +18,10 @@ spec:
     spec:
       containers:
       - name: dummyapp
-        image: 'docker.io/fahadahammed/dummyapp:v6'
+        image: 'docker.io/fahadahammed/dummyapp:v1.0.4'
         env:
         - name: VERSION
-          value: "v6"
+          value: "v1.0.4"
         - name: STARTUP_DELAY
           value: "30"
         - name: ENVIRONMENT
