@@ -23,6 +23,7 @@ LIVENESS_DELAY_COUNTER = int(os.getenv("LIVENESS_DELAY_COUNTER", "2"))
 READINESS_DELAY_COUNTER = int(os.getenv("LIVENESS_DELAY_COUNTER", "2"))
 HIT_COUNT = int(os.getenv("HIT_COUNT", "0"))
 ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
+TIMEOUT_VALUE = int(os.getenv("TIMEOUT_VALUE", "0"))
 
 app = FastAPI()
 
@@ -113,6 +114,26 @@ def probe_startup():
     
     time.sleep(int(STARTUP_DELAY))
     return Response(json.dumps({"message": "I have started!"}), status_code=200)
+
+
+@app.get("/timeout_check")
+def timeout_check(request: Request, html: bool = False):
+    timeout_value = TIMEOUT_VALUE
+    to_return = {
+        "message": f"Hello World from {service_name}:{the_hostname}!",
+        "data": {
+            "service": f"{service_name}",
+            "time": datetime.datetime.utcnow(),
+            "version": os.getenv("VERSION", "v1"),
+            "environment": ENVIRONMENT,
+            "timeout": f"It took {timeout_value} seconds to load."
+        }
+    }
+    if html:
+        return templates.TemplateResponse(
+            request=request, name="index.html", context=to_return
+        )
+    return to_return
 
 
 if __name__ == "__main__":
