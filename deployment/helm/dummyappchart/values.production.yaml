@@ -1,0 +1,10 @@
+namespace: dummyapp-production
+environment: production
+application_name: dummyapp
+replicas: 2
+application_container_name: dummyapp
+application_image_url: docker.io/fahadahammed/dummyapp
+application_image_tag: v1.0.2
+certificate_name: dummyapp.fahadahammed.com
+ingress_hosts:
+  - dummyapp.fahadahammed.com

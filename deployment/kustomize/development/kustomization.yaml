@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: dummyapp-development
+commonLabels:
+  app.kubernetes.io/name: "dummyapp"
+  environment: "development"
+
+resources:
+- ../base
+
+patches:
+- target:
+    kind: Deployment
+    name: dummyapp-deployment
+  path: patches.yaml
