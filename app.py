@@ -135,6 +135,12 @@ def timeout_check(request: Request, html: bool = False, timeout_value: int = 60)
     return to_return
 
 
+@app.get("/generate_error/one")
+def generate_error_one():
+    print(1/0)
+    return Response(json.dumps({"message": "Intensional Error"}), status_code=500)
+
+
 if __name__ == "__main__":
     run(
         app="__main__:app",
